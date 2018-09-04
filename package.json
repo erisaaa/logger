@@ -1,0 +1,61 @@
+{
+    "name": "@erisa/logger",
+    "version": "0.0.2-0",
+    "description": "The default logging module for Erisa.",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "repository": "https://github.com/erisaaa/logger",
+    "author": "Ovyerus <iamovyerus@gmail.com>",
+    "license": "MIT",
+    "scripts": {
+        "test": "mocha",
+        "coverage": "nyc mocha",
+        "lint": "tslint -p . -c tslint.json",
+        "compile": "tsc -p .",
+        "clean": "rimraf dist",
+        "build": "npm run clean && npm run compile",
+        "prepublishOnly": "npm run build"
+    },
+    "devDependencies": {
+        "@types/chai": "^4.1.4",
+        "@types/mocha": "^5.2.5",
+        "@types/node": "^10.9.4",
+        "chai": "^4.1.2",
+        "erisa": "^0.0.3",
+        "mocha": "^5.2.0",
+        "nyc": "^13.0.1",
+        "rimraf": "^2.6.2",
+        "source-map-support": "^0.5.9",
+        "test-console": "^1.1.0",
+        "ts-node": "^7.0.1",
+        "tslint": "^5.11.0",
+        "typescript": "^3.0.1"
+    },
+    "peerDependencies": {
+        "erisa": "^0.0.3"
+    },
+    "dependencies": {
+        "colorette": "^1.0.1"
+    },
+    "nyc": {
+      "include": [
+        "index.ts"
+      ],
+      "exclude": [
+        "test/**/*.test.ts"
+      ],
+      "extension": [
+        ".ts"
+      ],
+      "require": [
+        "ts-node/register"
+      ],
+      "reporter": [
+        "text-summary",
+        "html",
+        "lcov"
+      ],
+      "sourceMap": true,
+      "instrument": true
+    }
+}
