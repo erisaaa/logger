@@ -5,7 +5,9 @@
         "module": "commonjs",
         "allowSyntheticDefaultImports": true,
         "strictNullChecks": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "outDir": "dist/",
+        "declaration": true
     },
     "files": [
         "index.ts"
