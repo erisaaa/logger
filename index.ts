@@ -1,5 +1,5 @@
 import {Erisa, MiddlewareHandler} from 'erisa';
-import {bgRed, red, bold, black, bgYellow, yellow, bgGreen, green} from 'colorette';
+import * as c from 'colorette';
 
 type DefaultListeners = 'ready' | 'error' | 'warn' | 'guildCreate' | 'guildDelete';
 export interface LoggerLevel {
@@ -27,16 +27,16 @@ export default function logger(erisa: Erisa, defaultListeners: boolean | Default
         },
         levels: {
             error: {
-                tagText: bgRed('[ERROR]'),
-                textFunc: str => red(bold(str))
+                tagText: c.bgRed('[ERROR]'),
+                textFunc: str => c.red(c.bold(str))
             },
             warn: {
-                tagText: black(bgYellow('[WARN]')),
-                textFunc: str => yellow(bold(str))
+                tagText: c.black(c.bgYellow('[WARN]')),
+                textFunc: str => c.yellow(c.bold(str))
             },
             info: {
-                tagText: black(bgGreen('[INFO]')),
-                textFunc: str => green(bold(str))
+                tagText: c.black(c.bgGreen('[INFO]')),
+                textFunc: str => c.green(c.bold(str))
             }
         } as {[x: string]: LoggerLevel}
     };
