@@ -1,15 +1,17 @@
 {
-    "compilerOptions": {
-        "target": "es6",
-        "lib": ["esnext"],
-        "module": "commonjs",
-        "allowSyntheticDefaultImports": true,
-        "strictNullChecks": true,
-        "esModuleInterop": true,
-        "outDir": "dist/",
-        "declaration": true
-    },
-    "files": [
-        "index.ts"
-    ]
+  "compilerOptions": {
+    "target": "es6",
+    "lib": [
+      "esnext"
+    ],
+    "module": "commonjs",
+    "allowSyntheticDefaultImports": true,
+    "strictNullChecks": true,
+    "esModuleInterop": true,
+    "outDir": "dist/",
+    "declaration": true
+  },
+  "files": [
+    "index.ts"
+  ]
 }
