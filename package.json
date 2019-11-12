@@ -1,6 +1,6 @@
 {
   "name": "@erisa/logger",
-  "version": "0.0.3-0",
+  "version": "0.0.8",
   "description": "The default logging module for Erisa.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
