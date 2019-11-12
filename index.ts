@@ -1,7 +1,7 @@
 import { Erisa, MiddlewareHandler } from 'erisa';
 import * as c from 'colorette';
 
-type DefaultListeners =
+type DefaultListener =
   | 'ready'
   | 'error'
   | 'warn'
@@ -11,20 +11,31 @@ export interface LoggerLevel {
   tagText: string;
   textFunc(text: string): string;
 }
+export interface Logger {
+  dispatch(level: string, ...msgs: any[]);
+  levels: { [x: string]: LoggerLevel };
+}
+
+declare module 'erisa' {
+  interface Erisa {
+    logger: Logger;
+  }
+}
 
 /**
  * Register's a logger under Erisa, and optionally makes default listeners.
  *
  * @param erisa An Erisa instance to define extensions for..
- * @param defaultListeners Whether or not to register a listener for some default events. If an array, it is an array of events to log, with the values being a `DefaultListeners`.
+ * @param defaultListeners Whether or not to register a listener for some default events. If an array, it is an array of events to log, with the values being a `DefaultListener`.
  */
 export default function logger(
+  // TODO: fix fuckery in main package so I don't have to typeof
   erisa: Erisa,
-  defaultListeners: boolean | DefaultListeners[] = true
-): MiddlewareHandler | void {
-  if (erisa.extensions.logger) return;
+  defaultListeners: boolean | DefaultListener[] = true
+) {
+  if (erisa.logger) return;
 
-  erisa.extensions.logger = {
+  const _logger = (erisa.logger = {
     dispatch(level: string, ...msgs: any[]) {
       if (!this.levels[level]) console.log(...msgs);
       else {
@@ -47,59 +58,39 @@ export default function logger(
         textFunc: str => c.green(c.bold(str))
       }
     } as { [x: string]: LoggerLevel }
-  };
+  });
 
   if (!defaultListeners) return;
   else
-    return function handler({ erisa: client, event }, ...args) {
-      if (
-        Array.isArray(defaultListeners) &&
-        !defaultListeners.includes(event as DefaultListeners)
-      )
-        return;
-
-      const logger_ = client.extensions.logger;
-
-      /* if (!defaultListeners) return;
-    else return ([
-        ['ready', ({erisa: {user}}) => _logger.dispatch('info', `Logged in as ${user.username}`)],
-        ['error', (_, err, id) => _logger.dispatch('error', `Discord error for shard ${id}: ${err}`)],
-        ['warn', (_, warn, id) => _logger.dispatch('warn', `Discord warning for shard ${id}: ${warn}`)],
-        ['guildCreate', (_, guild) => _logger.dispatch('info', `Joined guild ${guild.name} (${guild.id})`)],
-        ['guildDelete', (_, guild) => _logger.dispatch('info', `Left guild ${guild.name} (${guild.id})`)]
-    ] as [string, MiddlewareHandler][]).filter(([event]) => defaultListeners === true || defaultListeners.includes(event as DefaultListener));
-*/
-
-      switch (event) {
-        case 'ready':
-          logger_.dispatch('info', `Logged in as ${client.user.username}`);
-          break;
-        case 'error':
-          logger_.dispatch(
-            'error',
-            `Discord error for shard ${args[1]}: ${args[0]}`
-          );
-          break;
-        case 'warn':
-          logger_.dispatch(
-            'warn',
-            `Discord warning for shard ${args[1]}: ${args[0]}`
-          );
-          break;
-        case 'guildCreate':
-          logger_.dispatch(
-            'info',
-            `Joined guild ${args[0].name} (${args[0].id})`
-          );
-          break;
-        case 'guildDelete':
-          logger_.dispatch(
-            'info',
-            `Left guild ${args[0].name} (${args[0].id})`
-          );
-          break;
-        default:
-          break;
-      }
-    };
+    return ([
+      [
+        'ready',
+        ({ erisa: { user } }) =>
+          _logger.dispatch('info', `Logged in as ${user.username}`)
+      ],
+      [
+        'error',
+        (_, err, id) =>
+          _logger.dispatch('error', `Discord error for shard ${id}: ${err}`)
+      ],
+      [
+        'warn',
+        (_, warn, id) =>
+          _logger.dispatch('warn', `Discord warning for shard ${id}: ${warn}`)
+      ],
+      [
+        'guildCreate',
+        (_, guild) =>
+          _logger.dispatch('info', `Joined guild ${guild.name} (${guild.id})`)
+      ],
+      [
+        'guildDelete',
+        (_, guild) =>
+          _logger.dispatch('info', `Left guild ${guild.name} (${guild.id})`)
+      ]
+    ] as [string, MiddlewareHandler][]).filter(
+      ([event]) =>
+        defaultListeners === true ||
+        defaultListeners.includes(event as DefaultListener)
+    );
 }
