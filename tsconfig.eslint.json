@@ -5,6 +5,7 @@
   },
   "include": [
     "index.ts",
-    "test/"
+    "test/",
+    "jest.config.js"
   ]
 }

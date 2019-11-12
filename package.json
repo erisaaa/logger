@@ -8,64 +8,43 @@
   "author": "Ovyerus <iamovyerus@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "mocha",
-    "coverage": "nyc mocha",
+    "test": "jest",
+    "coverage": "jest --coverage",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "compile": "tsc -p .",
     "clean": "rimraf dist",
-    "build": "npm run clean && npm run compile",
-    "prepublishOnly": "npm run build"
+    "build": "yarn clean && yarn compile",
+    "prepublishOnly": "yarn test && yarn build"
   },
   "dependencies": {
     "colorette": "^1.1.0"
   },
   "peerDependencies": {
     "eris": "^0.10.1",
-    "erisa": "^0.0.3"
+    "erisa": "^0.0.5"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.3",
-    "@types/mocha": "^5.2.7",
-    "@types/node": "^12.7.5",
-    "@typescript-eslint/eslint-plugin": "2.3.0",
-    "@typescript-eslint/parser": "2.3.0",
-    "chai": "^4.2.0",
-    "erisa": "^0.0.5",
-    "eslint": "^6.4.0",
-    "eslint-config-clarity": "0.2.8",
+    "@types/jest": "^24.0.22",
+    "@types/node": "^12.12.7",
+    "@typescript-eslint/eslint-plugin": "2.7.0",
+    "@typescript-eslint/parser": "2.7.0",
+    "erisa": "^0.0.8",
+    "eslint": "^6.6.0",
+    "eslint-config-clarity": "0.2.11",
     "eslint-plugin-import": "2.18.2",
     "eslint-plugin-prettier": "3.1.1",
-    "eslint-plugin-react": "7.14.3",
-    "eslint-plugin-react-hooks": "2.0.1",
+    "eslint-plugin-react": "7.16.0",
+    "eslint-plugin-react-hooks": "2.2.0",
     "eslint-plugin-sift": "0.3.0",
-    "mocha": "^6.2.0",
-    "nyc": "^14.1.1",
-    "prettier": "1.18.2",
+    "jest": "^24.9.0",
+    "prettier": "1.19.1",
     "rimraf": "^3.0.0",
-    "source-map-support": "^0.5.13",
-    "test-console": "^1.1.0",
-    "ts-node": "^8.4.1",
-    "typescript": "^3.6.3"
+    "ts-jest": "^24.1.0",
+    "typescript": "^3.7.2"
   },
-  "nyc": {
-    "include": [
-      "index.ts"
-    ],
-    "exclude": [
-      "test/**/*.test.ts"
-    ],
-    "extension": [
-      ".ts"
-    ],
-    "require": [
-      "ts-node/register"
-    ],
-    "reporter": [
-      "text-summary",
-      "html",
-      "lcov"
-    ],
-    "sourceMap": true,
-    "instrument": true
-  }
+  "files": [
+    "dist/",
+    "LICENSE",
+    "README.md"
+  ]
 }

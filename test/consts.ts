@@ -1,15 +1,16 @@
 import Eris from 'eris';
-import * as c from 'colorette';
-import { Erisa } from 'erisa';
+import c from 'colorette';
+// import { Erisa } from 'erisa';
 
 // logger.test.ts
 export const testString = 'This is a test.';
 export const customLevel = {
   tagText: c.bgCyan('[FOO]'),
-  textFunc: str => c.cyan(c.bold(testString))
+  textFunc: str => c.cyan(c.bold(str))
 };
+
 export const logEvents: {
-  [x: string]: [(client: Erisa) => any, any[], any, string];
+  [x: string]: [(client: any) => void, any[], string, string];
 } = {
   ready: [
     client => {
